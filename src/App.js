@@ -4,11 +4,13 @@ import { useState } from 'react';
 import SearchImage from './components/SearchImage';
 import ImageList from './components/ImageList';
 import fetchImages from './Api/unsplash';
+import ErrorDisplay from './components/ErrorDisplay';
+import OpenStatement from './components/OpenStatement';
 
 const App = () => {
   const [images, setImages] = useState(undefined);
   const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState(false);
+  const [error, setError] = useState(false);
 
   const onHandleFormSubmit = async (searchTerm) => {
     setLoading(true);
@@ -23,16 +25,16 @@ const App = () => {
 
     const response = await fetchImages(searchTerm);
 
-    if (response.request.status >= 400) {
-      // setError(true);
+    if (response.request.status >= 400 || response.data.results.length === 0) {
+      setError(true);
       setLoading(false);
     } else {
-      // setError(false);
+      setError(false);
       setImages(response.data.results);
       setLoading(false);
     }
 
-    console.log(response);
+    console.log(response.data);
   };
 
   return (
@@ -69,18 +71,14 @@ const App = () => {
           />
         </div>
       )}
-      {images ? (
+      {error ? (
+        <ErrorDisplay />
+      ) : images ? (
         <ImageList images={images} />
       ) : (
-        <div className="flex flex-wrap justify-center content-center items-center pt-40 md:pt-60 font-raleway text-xl md:text-4xl ">
-          <p className="flex flex-wrap justify-center items-center content-center animate-jump-out">
-            Search Beautifully Designed Photos
-          </p>
-          <p className="flex flex-wrap justify-center items-center content-center">
-            Powered by Unsplash ©
-          </p>
-        </div>
+        <OpenStatement />
       )}
+      {/* {images ? <ImageList images={images} /> : <OpenStatement />} */}
     </>
   );
 };
