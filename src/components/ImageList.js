@@ -17,9 +17,12 @@ const ImageList = ({ images }) => {
         {images &&
           images.map((image) => {
             return (
-              <div key={image.id} className="relative">
+              <div
+                key={image.id}
+                className="relative text-white md:text-transparent md:hover:text-white"
+              >
                 <img
-                  className="pointer rounded shadow-xl hover:scale-105 transition-all hover:contrast-50"
+                  className="pointer rounded shadow-xl md:hover:scale-110  transition-all hover:contrast-75"
                   onClick={() => {
                     setIsOpen(true);
                     setSelectedImg(image);
@@ -27,7 +30,7 @@ const ImageList = ({ images }) => {
                   alt={image.alt_description}
                   src={image.urls.regular}
                 />
-                <p className="absolute bottom-4 left-2 h-2 w-auto font-normal text-white text-sm">
+                <p className="absolute bottom-4 left-2 h-2 w-auto font-normal text-md ">
                   {image.user.name}
                 </p>
                 <a
@@ -35,7 +38,7 @@ const ImageList = ({ images }) => {
                   href={image.urls.full}
                   target="_blank"
                   download={image.alt_description}
-                  className=" absolute bottom-4 right-2 h-3 w-auto font-normal text-white text-lg"
+                  className="absolute bottom-4 right-2 h-3 w-auto font-normal text-2xl  hover:text-orange-400 hover:animate-bounce animate-ease-in-out"
                 >
                   <BsFillArrowDownSquareFill />
                 </a>
