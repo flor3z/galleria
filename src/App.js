@@ -7,10 +7,22 @@ import fetchImages from './Api/unsplash';
 import ErrorDisplay from './components/ErrorDisplay';
 import OpenStatement from './components/OpenStatement';
 
+const ImageResult = ({ images }) => {
+  console.log(images);
+  if (images === undefined) {
+    return <OpenStatement />;
+  }
+  if (images >= 400 || images === 0) {
+    return null;
+  }
+  if (images.length === 0) return null;
+};
+
 const App = () => {
   const [images, setImages] = useState(undefined);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [networkError, setNetworkError] = useState(false);
+  const [noSearchError, setNoSearchError] = useState(false);
 
   const onHandleFormSubmit = async (searchTerm) => {
     setLoading(true);
@@ -24,19 +36,24 @@ const App = () => {
     //   });
 
     const response = await fetchImages(searchTerm);
-
-    if (response.request.status >= 400 || response.data.results.length === 0) {
-      setError(true);
+    console.log(response);
+    if (response.request.status >= 400 || response.request.status === 0) {
+      setImages(response.request.status);
+      setNetworkError(true);
+      setNoSearchError(false); //added this b/c was showing from prevState //
+      setLoading(false);
+    } else if (response.data.results.length === 0) {
+      setImages(response.data.results); //array is returned  []//
+      setNoSearchError(true);
+      setNetworkError(false); //added this b/c was showing from prevState //
       setLoading(false);
     } else {
-      setError(false);
       setImages(response.data.results);
+      setNoSearchError(false); //added this b/c was showing both components//
+      setNetworkError(false); // and this //
       setLoading(false);
     }
-
-    console.log(response.data);
   };
-
   return (
     <>
       <div
@@ -71,14 +88,14 @@ const App = () => {
           />
         </div>
       )}
-      {error ? (
-        <ErrorDisplay />
-      ) : images ? (
-        <ImageList images={images} />
-      ) : (
-        <OpenStatement />
-      )}
-      {/* {images ? <ImageList images={images} /> : <OpenStatement />} */}
+      {networkError ? (
+        <ErrorDisplay text={'Please check your network'} />
+      ) : null}
+      {noSearchError ? (
+        <ErrorDisplay text={'Please enter a search term'} />
+      ) : null}
+      {images ? <ImageList images={images} /> : null}
+      <ImageResult images={images} />
     </>
   );
 };
