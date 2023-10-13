@@ -47,7 +47,7 @@ const ImageList = ({ images }) => {
           })}
       </div>
 
-      {/* store image somewhere - useState URL - then pass to mymodal and use img URL */}
+      {/* {Modals live along side components as its own portal, display it when required} */}
       <MyModal isOpen={isOpen} closeModal={closeModal} image={selectedImg} />
     </div>
   );

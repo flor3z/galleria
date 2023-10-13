@@ -25,7 +25,7 @@ const SearchImage = ({ onSubmit, loading }) => {
           onChange={onHandleChange}
         />
         <button className="bg-orange-400 rounded-tr rounded-br  text-white pt-2 pb-2 pl-6 pr-6 hover:bg-orange-500">
-          {loading ? 'Processing...' : 'Search'}
+          {loading ? 'Searching...' : 'Search'}
         </button>
       </form>
     </div>

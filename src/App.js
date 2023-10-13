@@ -8,7 +8,6 @@ import ErrorDisplay from './components/ErrorDisplay';
 import OpenStatement from './components/OpenStatement';
 
 const ImageResult = ({ images }) => {
-  console.log(images);
   if (images === undefined) {
     return <OpenStatement />;
   }
@@ -36,7 +35,6 @@ const App = () => {
     //   });
 
     const response = await fetchImages(searchTerm);
-    console.log(response);
     if (response.request.status >= 400 || response.request.status === 0) {
       setImages(response.request.status);
       setNetworkError(true);

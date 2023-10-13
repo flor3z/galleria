@@ -5,7 +5,7 @@ const baseUrl = 'https://api.unsplash.com';
 const fetchImages = async (searchTerm) => {
   try {
     const response = await axios.get(
-      `${baseUrl}/search/photos?per_page=25&query=${searchTerm}&client_id=${process.env.REACT_APP_UNSPLASH_API_KEY}`
+      `${baseUrl}/search/photos?per_page=30&query=${searchTerm}&client_id=${process.env.REACT_APP_UNSPLASH_API_KEY}`
     );
     return response;
   } catch (error) {
